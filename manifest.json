@@ -1,0 +1,35 @@
+{
+    "name": "Activity Time Tracker",
+    "short_name": "Activity Tracker",
+    "manifest_version": 1,
+    "version": "1.0",
+    "description": "Track and limit time your activity in the browser every day.",
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage",
+        "idle",
+        "chrome://favicon/*",
+        "webNavigation",
+        "unlimitedStorage"
+    ],
+    "icons": {
+        "64": "images/icon-64.png"
+    },
+    "background": {
+        "scripts": [
+            "scripts/background.js",
+            "scripts/storage.js",
+            "scripts/common.js"
+        ],
+        "persistent": false
+    },
+    "options_page": "options.html",
+    "browser_action": {
+        "default_popup": "index.html",
+        "default_icon": {
+            "64": "images/icon-64.png"
+        }
+    },
+    "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net/npm/chart.js@2.8.0; object-src 'self'"
+}

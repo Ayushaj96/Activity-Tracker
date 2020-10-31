@@ -16,7 +16,6 @@
     "icons": {
         "64": "images/icon-64.png"
     },
-
     "background": {
         "scripts": [
             "scripts/background.js",

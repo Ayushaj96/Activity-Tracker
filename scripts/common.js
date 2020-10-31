@@ -3,7 +3,7 @@ const LAST_ACTIVE_TAB_KEY = "lastActiveTab";
 
 const sortMultipleProperties = (...property) => {
 
-    return function(obj1, obj2) {
+    return function (obj1, obj2) {
         let i = 0,
             result = 0,
             numberOfProperties = property.length;
@@ -24,7 +24,7 @@ const sortData = (property) => {
         property = property.substr(1);
     }
 
-    return function(a, b) {
+    return function (a, b) {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
     }

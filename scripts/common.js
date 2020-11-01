@@ -6,7 +6,7 @@ sort object based on multiple key properties
 */
 const sortMultipleProperties = (...property) => {
 
-    return function(obj1, obj2) {
+    return function (obj1, obj2) {
         let i = 0,
             result = 0,
             numberOfProperties = property.length;
@@ -30,7 +30,7 @@ const sortData = (property) => {
         property = property.substr(1);
     }
 
-    return function(a, b) {
+    return function (a, b) {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
     }
@@ -95,11 +95,11 @@ const getHostName = (url) => {
 /*
 set text on icon badge
 */
-const setBadgeText = (tab, text) => {
+const setBadgeText = (id, text) => {
 
     chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 0] })
     chrome.browserAction.setBadgeText({
-        tabId: tab.id,
+        tabId: id,
         text: convertTimeToBadgeString(text)
     });
 }

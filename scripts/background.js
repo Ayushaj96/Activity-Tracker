@@ -38,7 +38,7 @@ const trackCurrentActiveTab = (currentTab) => {
 
         // display time on extension icon
         let trackedTime = currentActiveTabObj[hostName].trackedSeconds;
-        setBadgeText(currentTab, trackedTime);
+        setBadgeText(currentTab.id, trackedTime);
 
         // save value in localstorage
         storage.saveValue(CURRENT_ACTIVE_TAB_KEY, currentActiveTabObj)
@@ -50,7 +50,7 @@ const trackCurrentActiveTab = (currentTab) => {
 call function in background in 1 sec interval
 */
 const backgroundCheck = () => {
-    chrome.windows.getLastFocused({ populate: true }, function(currentWindow) {
+    chrome.windows.getLastFocused({ populate: true }, function (currentWindow) {
         if (currentWindow.focused) {
             let activeTab = currentWindow.tabs.find(t => t.active === true);
             trackCurrentActiveTab(activeTab);

@@ -30,6 +30,7 @@ function ActiveTab(currentTab) {
             currentActiveTabObj[hostName].trackedSeconds += passedSeconds;
             currentActiveTabObj[hostName].lastVisit = currentDate;
 
+
         } else {
             let newUrlInfo = {
                 'url': hostName,
@@ -40,9 +41,17 @@ function ActiveTab(currentTab) {
             currentActiveTabObj[hostName] = newUrlInfo;
         }
 
+        // display time on extension icon
+        let trackedTime = currentActiveTabObj[hostName].trackedSeconds;
+        chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 0] })
+        chrome.browserAction.setBadgeText({
+            tabId: currentTab.id,
+            text: convertTimeToBadgeString(trackedTime)
+        });
+
         let newCurrentActiveTabObj = {};
         newCurrentActiveTabObj[CURRENT_ACTIVE_TAB_KEY] = JSON.stringify(currentActiveTabObj);
-
+        // save to db
         chrome.storage.local.set(newCurrentActiveTabObj, () => { });
     });
 
@@ -54,11 +63,6 @@ function backgroundCheck() {
         if (currentWindow.focused) {
             let activeTab = currentWindow.tabs.find(t => t.active === true);
             ActiveTab(activeTab);
-            chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 0] })
-            chrome.browserAction.setBadgeText({
-                tabId: activeTab.id,
-                text: 'abc'
-            });
         }
     });
 }

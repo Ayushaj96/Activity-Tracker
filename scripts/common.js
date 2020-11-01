@@ -46,3 +46,20 @@ const formatTime = (time) => {
     return formatedTime;
 
 }
+
+function convertTimeToBadgeString(summaryTime) {
+    var sec = (summaryTime);
+    var min = (summaryTime / 60).toFixed(0);
+    var hours = (summaryTime / (60 * 60)).toFixed(0);
+    var days = (summaryTime / (60 * 60 * 24)).toFixed(0);
+
+    if (sec < 60) {
+        return sec + "s";
+    } else if (min < 60) {
+        return min + "m";
+    } else if (hours < 24) {
+        return hours + "h";
+    } else {
+        return days + "d"
+    }
+}

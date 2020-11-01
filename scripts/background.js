@@ -1,23 +1,11 @@
-let isWindowActive = true;
-let hostname = '';
 
-function onTabTrack() {
-    isWindowActive = true;
-    processTabChange();
-}
-
-function processTabChange() {
-    console.log(new Date());
-    chrome.tabs.query({ active: true }, getTabs);
-}
-
-function getTabs(tabs) {
+function ActiveTab(tabs) {
 
     if (tabs === undefined || tabs.length == 0 || tabs[0] === null) {
         return;
     }
 
-    let currentTab = tabs[0];
+    let currentTab = tabs;
     let url = currentTab.status === 'loading' ? currentTab.pendingUrl : currentTab.url;
     hostName = url;
 
@@ -29,57 +17,31 @@ function getTabs(tabs) {
         console.log(`Could not construct url from ${currentTab.url}, error:${error}`);
     }
 
-    chrome.storage.local.get([CURRENT_ACTIVE_TAB_KEY, LAST_ACTIVE_TAB_KEY], (storageData) => {
+    chrome.storage.local.get([CURRENT_ACTIVE_TAB_KEY], (storageData) => {
 
         let currentActiveTab = storageData[CURRENT_ACTIVE_TAB_KEY];
-        let lastActiveTab = storageData[LAST_ACTIVE_TAB_KEY];
-
-        // console.log(currentActiveTab);
-        // console.log(lastActiveTab);
-
         let currentActiveTabObj = currentActiveTab != null ? JSON.parse(currentActiveTab) : {};
-        let lastActiveTabObj = lastActiveTab != null ? JSON.parse(lastActiveTab) : {};
-
-        if (lastActiveTabObj.hasOwnProperty('url') && lastActiveTabObj.hasOwnProperty('lastVisit')) {
-
-            let lastUrl = lastActiveTabObj['url'];
-            let currentDate = Date.now();
-            let passedSeconds = (currentDate - lastActiveTabObj['lastVisit']) * 0.001;
-
-            if (currentActiveTabObj.hasOwnProperty(lastUrl)) {
-
-                let urlInfo = currentActiveTabObj[lastUrl];
-                if (urlInfo.hasOwnProperty('trackedSeconds')) {
-                    urlInfo['trackedSeconds'] += passedSeconds;
-                } else {
-                    urlInfo['trackedSeconds'] = passedSeconds;
-                }
-                urlInfo['lastVisit'] = currentDate;
-
-            } else {
-                let newUrlInfo = {
-                    'url': lastUrl,
-                    'trackedSeconds': passedSeconds,
-                    'lastVisit': currentDate
-                };
-                currentActiveTabObj[lastUrl] = newUrlInfo;
-            }
-        }
 
         let currentDate = Date.now();
-        let lastActiveTabInfo = {
-            'url': hostName,
-            'lastVisit': currentDate
-        }
-        if (!isWindowActive) {
-            lastActiveTabInfo = {};
-        }
+        let passedSeconds = 1;
 
-        let newLastActiveTabObj = {};
-        newLastActiveTabObj[LAST_ACTIVE_TAB_KEY] = JSON.stringify(lastActiveTabInfo);
+        // if url already exists then update time
+        if (currentActiveTabObj.hasOwnProperty(hostName)) {
 
-        // save data
-        chrome.storage.local.set(newLastActiveTabObj, () => { });
+            let urlInfo = currentActiveTabObj[hostName];
+            urlInfo['trackedSeconds'] += passedSeconds;
+            urlInfo['lastVisit'] = currentDate;
+            currentActiveTabObj[hostName] = urlInfo;
+
+        } else {
+            let newUrlInfo = {
+                'url': hostName,
+                'trackedSeconds': passedSeconds,
+                'lastVisit': currentDate,
+                'icon': currentTab.favIconUrl
+            };
+            currentActiveTabObj[hostName] = newUrlInfo;
+        }
 
         let newCurrentActiveTabObj = {};
         newCurrentActiveTabObj[CURRENT_ACTIVE_TAB_KEY] = JSON.stringify(currentActiveTabObj);
@@ -89,14 +51,24 @@ function getTabs(tabs) {
 
 }
 
-chrome.tabs.onActivated.addListener(onTabTrack);
-chrome.windows.onFocusChanged.addListener((windowId) => {
+function backgroundCheck() {
 
-    if (windowId == chrome.windows.WINDOW_ID_NONE) {
-        isWindowActive = false;
-        processTabChange();
-    } else {
-        isWindowActive = true;
-        processTabChange();
-    }
-});
+    chrome.windows.getLastFocused({ populate: true }, function (currentWindow) {
+        if (currentWindow.focused) {
+            let activeTab = currentWindow.tabs.find(t => t.active === true);
+            ActiveTab(activeTab);
+            chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 0] })
+            chrome.browserAction.setBadgeText({
+                tabId: activeTab.id,
+                text: 'abc'
+            });
+        }
+    });
+}
+
+function updateSummaryTime() {
+    // call function in 1 sec interval
+    window.setInterval(backgroundCheck, 1000);
+}
+// function call
+updateSummaryTime();

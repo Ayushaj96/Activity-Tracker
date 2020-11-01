@@ -1,11 +1,10 @@
+function ActiveTab(currentTab) {
 
-function ActiveTab(tabs) {
-
-    if (tabs === undefined || tabs.length == 0 || tabs[0] === null) {
+    if (currentTab === undefined || currentTab === null) {
         return;
     }
+    console.log(currentTab);
 
-    let currentTab = tabs;
     let url = currentTab.status === 'loading' ? currentTab.pendingUrl : currentTab.url;
     hostName = url;
 
@@ -31,6 +30,7 @@ function ActiveTab(tabs) {
             let urlInfo = currentActiveTabObj[hostName];
             urlInfo['trackedSeconds'] += passedSeconds;
             urlInfo['lastVisit'] = currentDate;
+            urlInfo['icon'] = currentTab.favIconUrl;
             currentActiveTabObj[hostName] = urlInfo;
 
         } else {
@@ -46,14 +46,14 @@ function ActiveTab(tabs) {
         let newCurrentActiveTabObj = {};
         newCurrentActiveTabObj[CURRENT_ACTIVE_TAB_KEY] = JSON.stringify(currentActiveTabObj);
 
-        chrome.storage.local.set(newCurrentActiveTabObj, () => { });
+        chrome.storage.local.set(newCurrentActiveTabObj, () => {});
     });
 
 }
 
 function backgroundCheck() {
 
-    chrome.windows.getLastFocused({ populate: true }, function (currentWindow) {
+    chrome.windows.getLastFocused({ populate: true }, function(currentWindow) {
         if (currentWindow.focused) {
             let activeTab = currentWindow.tabs.find(t => t.active === true);
             ActiveTab(activeTab);

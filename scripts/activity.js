@@ -1,35 +1,3 @@
-var temp = {
-    "hackerearth": {
-        "url": "hackerearth",
-        "trackedSeconds": 41957.905,
-        "lastVisit": 1603866976431,
-        "icon": "https://static-fastly.hackerearth.com/static/hackerearth/images/logo/HE_identity.png",
-    },
-    "leetcode.com": {
-        "url": "leetcode.com",
-        "trackedSeconds": 4514.243000000002,
-        "lastVisit": 1603820960588,
-        "icon": "https://leetcode.com/favicon-32x32.png",
-    },
-    "meet.google.com": {
-        "url": "meet.google.com",
-        "trackedSeconds": 3491.318,
-        "lastVisit": 1603816889901,
-        "icon": "https://www.google.com/favicon.ico",
-    },
-    "extensions": {
-        "url": "extensions",
-        "trackedSeconds": 34706.59500000001,
-        "lastVisit": 1603867188402,
-        "icon": '',
-    }
-}
-
-var data = {
-    "currentActiveTab": JSON.stringify(temp)
-}
-
-// ---------------------------------------------------------------------------------
 window.addEventListener('load', init);
 
 let clearButton, errorMessageElement, timeTable, chart;
@@ -41,11 +9,11 @@ function init() {
     chart = document.getElementById("chart");
 
     clearButton.addEventListener('click', clearData);
-    displayData();
+    chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
 }
 
 
-const displayData = () => {
+const displayData = (data) => {
 
     let dataJson = data[CURRENT_ACTIVE_TAB_KEY];
     if (dataJson == undefined || dataJson == null) {
@@ -137,6 +105,9 @@ const clearData = () => {
 
     let response = confirm('Are you sure you want to clear tracking history?');
     if (response) {
+        let clearDataObj = {};
+        clearDataObj[CURRENT_ACTIVE_TAB_KEY] = JSON.stringify({});
+        chrome.storage.local.set(clearDataObj);
         clearRows();
         chart.style.display = 'none';
     }

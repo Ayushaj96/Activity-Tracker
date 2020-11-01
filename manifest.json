@@ -18,8 +18,8 @@
     },
     "background": {
         "scripts": [
-            "scripts/background.js",
             "scripts/storage.js",
+            "scripts/background.js",
             "scripts/common.js"
         ],
         "persistent": false

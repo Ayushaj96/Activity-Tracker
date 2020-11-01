@@ -9,12 +9,18 @@ const chartColors = {
     blue: "rgb(54, 162, 235)",
 };
 
+/*
+generate random colour in hex code
+*/
 const getRandomColor = () => {
 
     let color = "#" + ("00000" + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(-6);
     return color;
 };
 
+/*
+get background colours
+*/
 const getBackgroundColors = (values) => {
 
     const colors = Object.values(chartColors);
@@ -35,6 +41,9 @@ const getBackgroundColors = (values) => {
     return bgColors;
 }
 
+/*
+get url and percentage to be shown on chart
+*/
 const getUrlsAndPercentage = (data) => {
     let visitedUrls = {};
     let resultObj = {};
@@ -55,6 +64,9 @@ const getUrlsAndPercentage = (data) => {
     return resultObj;
 };
 
+/*
+generate and show chart
+*/
 const showPieChart = (data) => {
 
     const visitedUrls = getUrlsAndPercentage(data);

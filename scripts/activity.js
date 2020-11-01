@@ -2,6 +2,9 @@ window.addEventListener('load', init);
 
 let clearButton, errorMessageElement, timeTable, chart;
 
+/*
+initialization
+*/
 function init() {
     clearButton = document.getElementById("btnClear");
     errorMessageElement = document.getElementById("errorMessage");
@@ -12,7 +15,9 @@ function init() {
     chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
 }
 
-
+/*
+Display data on popup
+*/
 const displayData = (data) => {
 
     let dataJson = data[CURRENT_ACTIVE_TAB_KEY];
@@ -53,6 +58,9 @@ const displayData = (data) => {
     }
 }
 
+/*
+Display data in table
+*/
 const displayRow = (currentObj, index, array) => {
 
     let totalSeconds = calculateTotalTimeInSeconds(array);
@@ -82,6 +90,9 @@ const displayRow = (currentObj, index, array) => {
     lastVisit.innerHTML = date.toLocaleString("sr-Latn-RS");
 }
 
+/*
+Calculate total time in seconds from array
+*/
 const calculateTotalTimeInSeconds = (array) => {
 
     let secondsArray = array.map((obj) => obj['trackedSeconds']);
@@ -90,17 +101,26 @@ const calculateTotalTimeInSeconds = (array) => {
     return totalSeconds;
 }
 
+/*
+Calculate percentage 
+*/
 const calculatePercentage = (element, total) => {
 
     let percentage = ((element / total) * 100).toFixed(2) + '%';
     return percentage;
 }
 
+/*
+Clear rows of table
+*/
 const clearRows = () => {
 
     timeTable.innerHTML = '';
 };
 
+/*
+Clear everything from popup
+*/
 const clearData = () => {
 
     let response = confirm('Are you sure you want to clear tracking history?');

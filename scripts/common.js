@@ -1,9 +1,12 @@
 const CURRENT_ACTIVE_TAB_KEY = "currentActiveTab";
 const LAST_ACTIVE_TAB_KEY = "lastActiveTab";
 
+/*
+sort object based on multiple key properties
+*/
 const sortMultipleProperties = (...property) => {
 
-    return function (obj1, obj2) {
+    return function(obj1, obj2) {
         let i = 0,
             result = 0,
             numberOfProperties = property.length;
@@ -16,6 +19,9 @@ const sortMultipleProperties = (...property) => {
     }
 }
 
+/*
+sort object based on single key property
+*/
 const sortData = (property) => {
 
     let sortOrder = 1;
@@ -24,12 +30,15 @@ const sortData = (property) => {
         property = property.substr(1);
     }
 
-    return function (a, b) {
+    return function(a, b) {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
     }
 }
 
+/*
+format time in 00h 00m 00s
+*/
 const formatTime = (time) => {
 
     let hours = Math.floor(time / 3600);
@@ -47,11 +56,14 @@ const formatTime = (time) => {
 
 }
 
-function convertTimeToBadgeString(summaryTime) {
-    var sec = (summaryTime);
-    var min = (summaryTime / 60).toFixed(0);
-    var hours = (summaryTime / (60 * 60)).toFixed(0);
-    var days = (summaryTime / (60 * 60 * 24)).toFixed(0);
+/*
+convert time to format display on icon badge
+*/
+const convertTimeToBadgeString = (time) => {
+    var sec = (time);
+    var min = (time / 60).toFixed(0);
+    var hours = (time / (60 * 60)).toFixed(0);
+    var days = (time / (60 * 60 * 24)).toFixed(0);
 
     if (sec < 60) {
         return sec + "s";
@@ -62,4 +74,32 @@ function convertTimeToBadgeString(summaryTime) {
     } else {
         return days + "d"
     }
+}
+
+/*
+get hostname from url
+*/
+const getHostName = (url) => {
+
+    let hostName = url;
+    try {
+        let urlObj = new URL(url);
+        urlObj.protocol.includes('http') ? (hostName = urlObj.hostname) : (hostName = urlObj.origin);
+
+    } catch (error) {
+        console.log(`Could not construct url from ${url}, error:${error}`);
+    }
+    return hostName;
+}
+
+/*
+set text on icon badge
+*/
+const setBadgeText = (tab, text) => {
+
+    chrome.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 0] })
+    chrome.browserAction.setBadgeText({
+        tabId: tab.id,
+        text: convertTimeToBadgeString(text)
+    });
 }

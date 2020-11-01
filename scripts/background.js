@@ -5,7 +5,7 @@ function ActiveTab(currentTab) {
     }
     console.log(currentTab);
 
-    let url = currentTab.status === 'loading' ? currentTab.pendingUrl : currentTab.url;
+    let url = currentTab.url;
     hostName = url;
 
     try {
@@ -27,11 +27,8 @@ function ActiveTab(currentTab) {
         // if url already exists then update time
         if (currentActiveTabObj.hasOwnProperty(hostName)) {
 
-            let urlInfo = currentActiveTabObj[hostName];
-            urlInfo['trackedSeconds'] += passedSeconds;
-            urlInfo['lastVisit'] = currentDate;
-            urlInfo['icon'] = currentTab.favIconUrl;
-            currentActiveTabObj[hostName] = urlInfo;
+            currentActiveTabObj[hostName].trackedSeconds += passedSeconds;
+            currentActiveTabObj[hostName].lastVisit = currentDate;
 
         } else {
             let newUrlInfo = {
@@ -46,14 +43,14 @@ function ActiveTab(currentTab) {
         let newCurrentActiveTabObj = {};
         newCurrentActiveTabObj[CURRENT_ACTIVE_TAB_KEY] = JSON.stringify(currentActiveTabObj);
 
-        chrome.storage.local.set(newCurrentActiveTabObj, () => {});
+        chrome.storage.local.set(newCurrentActiveTabObj, () => { });
     });
 
 }
 
 function backgroundCheck() {
 
-    chrome.windows.getLastFocused({ populate: true }, function(currentWindow) {
+    chrome.windows.getLastFocused({ populate: true }, function (currentWindow) {
         if (currentWindow.focused) {
             let activeTab = currentWindow.tabs.find(t => t.active === true);
             ActiveTab(activeTab);

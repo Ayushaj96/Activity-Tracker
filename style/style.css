@@ -98,3 +98,36 @@ tr:hover {
 .option-img {
     margin-bottom: 20px;
 }
+
+.btn-block {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-left: 62px;
+}
+
+a {
+    color: rgb(195, 194, 194);
+    padding: 4px 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 4px 7px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgb(195, 194, 194);
+    background: transparent;
+    width: 20%;
+}
+
+a:hover {
+    color: rgb(76, 160, 175);
+    border-bottom: 2px solid rgb(76, 160, 175);
+}
+
+a.active {
+    color: rgb(76, 160, 175);
+    border-bottom: 2px solid rgb(76, 160, 175);
+}

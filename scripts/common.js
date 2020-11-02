@@ -84,7 +84,7 @@ const getHostName = (url) => {
     let hostName = url;
     try {
         let urlObj = new URL(url);
-        urlObj.protocol.includes('http') ? (hostName = urlObj.hostname) : (hostName = urlObj.origin);
+        urlObj.protocol.includes('http') ? (hostName = urlObj.hostname) : (hostName = '');
 
     } catch (error) {
         console.log(`Could not construct url from ${url}, error:${error}`);

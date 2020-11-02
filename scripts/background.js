@@ -10,6 +10,9 @@ const trackCurrentActiveTab = (currentTab) => {
     }
 
     let hostName = getHostName(currentTab.url);
+    if (hostName.length === 0) {
+        return;
+    }
 
     // get value from localstorage
     storage.getValue(CURRENT_ACTIVE_TAB_KEY, (currentActiveTab) => {

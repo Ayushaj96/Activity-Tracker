@@ -1,5 +1,6 @@
-const CURRENT_ACTIVE_TAB_KEY = "currentActiveTab";
-const LAST_ACTIVE_TAB_KEY = "lastActiveTab";
+const ALL_TIME_DATA_KEY = "allTimeData";
+const SETTINGS_KEY = "settings";
+const CURRENT_DAY_DATA_KEY = "currentDayData";
 
 /*
 sort object based on multiple key properties

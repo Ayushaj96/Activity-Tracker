@@ -15,7 +15,7 @@ const trackCurrentActiveTab = (currentTab) => {
     }
 
     // get value from localstorage
-    storage.getValue(CURRENT_ACTIVE_TAB_KEY, (currentActiveTab) => {
+    storage.getValue(ALL_TIME_DATA_KEY, (currentActiveTab) => {
 
         let currentActiveTabObj = currentActiveTab != null ? JSON.parse(currentActiveTab) : {};
 
@@ -44,7 +44,7 @@ const trackCurrentActiveTab = (currentTab) => {
         setBadgeText(currentTab.id, trackedTime);
 
         // save value in localstorage
-        storage.saveValue(CURRENT_ACTIVE_TAB_KEY, currentActiveTabObj)
+        storage.saveValue(ALL_TIME_DATA_KEY, currentActiveTabObj)
     });
 
 }
@@ -53,7 +53,7 @@ const trackCurrentActiveTab = (currentTab) => {
 call function in background in 1 sec interval
 */
 const backgroundCheck = () => {
-    chrome.windows.getLastFocused({ populate: true }, function (currentWindow) {
+    chrome.windows.getLastFocused({ populate: true }, function(currentWindow) {
         if (currentWindow.focused) {
             let activeTab = currentWindow.tabs.find(t => t.active === true);
             trackCurrentActiveTab(activeTab);

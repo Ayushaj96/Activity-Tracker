@@ -19,6 +19,7 @@
     "background": {
         "scripts": [
             "scripts/storage.js",
+            "scripts/ui.js",
             "scripts/background.js",
             "scripts/common.js"
         ],

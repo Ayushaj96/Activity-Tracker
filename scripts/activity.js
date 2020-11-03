@@ -1,5 +1,6 @@
 let ui = new UI();
-let clearButton, errorMessageElement, timeTable, chart;
+let storage = new LocalStorage();
+let errorMessageElement, timeTable;
 
 window.addEventListener('load', init);
 
@@ -7,27 +8,26 @@ window.addEventListener('load', init);
 initialization
 */
 function init() {
-    clearButton = document.getElementById("btnClear");
+
     errorMessageElement = document.getElementById("errorMessage");
     timeTable = document.getElementById("timeTable");
-    chart = document.getElementById("chart");
 
-    clearButton.addEventListener('click', clearData);
-
+    document.getElementById("btnClear").addEventListener('click', clearData);
     document.getElementById("btnToday").addEventListener('click', showTodayData);
     document.getElementById("btnAll").addEventListener('click', showAllData);
-    document.getElementById("settings").addEventListener('click', showSettings);
-    chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
+    document.getElementById("btnSettings").addEventListener('click', showSettings);
+
+    showTodayData();
 }
 
 const showTodayData = () => {
     ui.setUIForToday();
-    chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
+    storage.getValue(ALL_TIME_DATA_KEY, displayData);
 }
 
 const showAllData = () => {
     ui.setUIForAll();
-    chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
+    storage.getValue(ALL_TIME_DATA_KEY, displayData);
 }
 
 const showSettings = () => {
@@ -39,14 +39,13 @@ Display data on popup
 */
 const displayData = (data) => {
 
-    let dataJson = data[CURRENT_ACTIVE_TAB_KEY];
-    if (dataJson == undefined || dataJson == null) {
+    if (data == undefined || data == null) {
         return;
     }
 
     try {
 
-        let dataObj = JSON.parse(dataJson);
+        let dataObj = JSON.parse(data);
 
         let entries = [];
         for (let key in dataObj) {
@@ -55,7 +54,7 @@ const displayData = (data) => {
 
         entries.sort(sortMultipleProperties('-trackedSeconds'));
 
-        clearRows();
+        ui.clearRows();
         let headerRow = timeTable.insertRow(0);
         headerRow.classList.add("table-header");
 
@@ -131,24 +130,13 @@ const calculatePercentage = (element, total) => {
 }
 
 /*
-Clear rows of table
-*/
-const clearRows = () => {
-
-    timeTable.innerHTML = '';
-};
-
-/*
 Clear everything from popup
 */
 const clearData = () => {
+
     let response = confirm('Are you sure you want to clear tracking history?');
     if (response) {
-        let clearDataObj = {};
-        clearDataObj[CURRENT_ACTIVE_TAB_KEY] = JSON.stringify({});
-        chrome.storage.local.set(clearDataObj);
-        clearRows();
-        chart.style.display = 'none';
+        storage.saveValue(ALL_TIME_DATA_KEY, {})
+        ui.clearActivityUI();
     }
 }
-

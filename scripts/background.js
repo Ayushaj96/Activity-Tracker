@@ -26,7 +26,7 @@ const trackCurrentActiveTab = (currentTab) => {
         if (currentActiveTabObj.hasOwnProperty(hostName)) {
             currentActiveTabObj[hostName].trackedSeconds += passedSeconds;
             currentActiveTabObj[hostName].lastVisit = currentDate;
-
+            currentActiveTabObj[hostName].icon = currentTab.favIconUrl;
         }
         // if url not exist, then add 
         else {

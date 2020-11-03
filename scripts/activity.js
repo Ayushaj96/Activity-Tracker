@@ -1,6 +1,7 @@
-window.addEventListener('load', init);
-
+let ui = new UI();
 let clearButton, errorMessageElement, timeTable, chart;
+
+window.addEventListener('load', init);
 
 /*
 initialization
@@ -12,7 +13,25 @@ function init() {
     chart = document.getElementById("chart");
 
     clearButton.addEventListener('click', clearData);
+
+    document.getElementById("btnToday").addEventListener('click', showTodayData);
+    document.getElementById("btnAll").addEventListener('click', showAllData);
+    document.getElementById("settings").addEventListener('click', showSettings);
     chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
+}
+
+const showTodayData = () => {
+    ui.setUIForToday();
+    chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
+}
+
+const showAllData = () => {
+    ui.setUIForAll();
+    chrome.storage.local.get(CURRENT_ACTIVE_TAB_KEY, displayData);
+}
+
+const showSettings = () => {
+    ui.setUIForSettings();
 }
 
 /*
@@ -57,6 +76,7 @@ const displayData = (data) => {
         errorMessageElement.innerText = DataString;
     }
 }
+
 
 /*
 Display data in table
@@ -122,7 +142,6 @@ const clearRows = () => {
 Clear everything from popup
 */
 const clearData = () => {
-
     let response = confirm('Are you sure you want to clear tracking history?');
     if (response) {
         let clearDataObj = {};
@@ -132,3 +151,4 @@ const clearData = () => {
         chart.style.display = 'none';
     }
 }
+

@@ -5,9 +5,13 @@
 
 	<!-- CSS -->
 	<link href="style/style.css" rel="stylesheet" />
+	<link href="style/picker/standalone.min.css" rel="stylesheet" />
+	<link href="style/picker/clockpicker.min.css" rel="stylesheet" />
 
 	<!-- External Sctipts -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="scripts/picker/jquery-3.3.1.min.js"></script>
+	<script src="scripts/picker/clockpicker.min.js"></script>
 
 </head>
 
@@ -26,13 +30,15 @@
 
 	<div id="settings">
 
-
 		<div class="margin-top-10">
 			<label>List of sites with notifications: </label>
 		</div>
 		<div class="margin-top-10">
+
 			<input type="text" class="label-with-list" placeholder="Enter site name..." id='addNotifySiteLbl' />
-			<input type="text" class="clock" placeholder="Time..." />
+			<div class="inline-block clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+				<input type="text" class="clock" placeholder="Time..." readonly id="addNotifyTimeLbl" />
+			</div>
 			<input type="button" class="btn-with-list" value="+" id='addNotifySiteBtn' />
 		</div>
 		<div class="margin-top-10">

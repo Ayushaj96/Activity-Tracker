@@ -12,7 +12,6 @@ function init() {
     errorMessageElement = document.getElementById("errorMessage");
     timeTable = document.getElementById("timeTable");
 
-    document.getElementById("btnClear").addEventListener('click', clearData);
     document.getElementById("btnToday").addEventListener('click', showTodayData);
     document.getElementById("btnAll").addEventListener('click', showAllData);
     document.getElementById("btnSettings").addEventListener('click', showSettings);
@@ -36,17 +35,6 @@ const showAllData = () => {
     ui.setUIForAll();
     storage.getValue(CURRENT_DAY_DATA_KEY, displayData);
 }
-
-/*
-Display settings
-*/
-const showSettings = () => {
-    ui.setUIForSettings();
-    storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function(integer) {
-        document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
-    });
-}
-
 
 /*
 Display all data

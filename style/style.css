@@ -172,3 +172,11 @@ a.active {
     height: 15px;
     padding: 3px;
 }
+
+.inline-block{
+    display: inline-block !important;
+}
+
+#settings {
+    height: 320px;
+}

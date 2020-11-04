@@ -1,5 +1,5 @@
 const ALL_TIME_DATA_KEY = "allTimeData";
-const SETTINGS_KEY = "settings";
+const NOTIFYING_SITES_KEY = "notifySites";
 const CURRENT_DAY_DATA_KEY = "currentDayData";
 
 /*

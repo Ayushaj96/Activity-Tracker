@@ -1,7 +1,13 @@
 let storage = new LocalStorage();
 
+let notifySitesData = {
+    "developer.chrome.com": 10,
+    "www.google.com": 9,
+    "stackoverflow.com": 6
+}
+
 /*
-update time of current active tab
+process current active tab
 */
 const trackCurrentActiveTab = (currentTab) => {
 
@@ -15,6 +21,10 @@ const trackCurrentActiveTab = (currentTab) => {
     });
 }
 
+
+/*
+check whether is day is changed or not
+*/
 const checkCurrentDayData = (data) => {
 
     let dataObj = data != null ? JSON.parse(data) : {};
@@ -37,6 +47,9 @@ const checkCurrentDayData = (data) => {
     return dataObj;
 }
 
+/*
+process and save data to localstorage
+*/
 const saveData = (storageKey, dataObj, currentTab) => {
 
     let hostName = getHostName(currentTab.url);
@@ -70,10 +83,74 @@ const saveData = (storageKey, dataObj, currentTab) => {
     let trackedTime = currentActiveTabObj[hostName].trackedSeconds;
     setBadgeText(currentTab.id, trackedTime);
 
+    if (isNotifyRequired(hostName) && isTimeLimitExceed(hostName, trackedTime)) {
+        //showNotification(hostName, trackedTime);
+        console.log(hostName, trackedTime);
+    }
+
     // save value in localstorage
     dataObj['data'] = currentActiveTabObj;
     storage.saveValue(storageKey, dataObj);
 }
+
+/*
+check current tab need notification
+*/
+const isNotifyRequired = (currentTabUrl) => {
+
+    return (currentTabUrl in notifySitesData);
+}
+
+/*
+check time limit exceed on current tab
+*/
+const isTimeLimitExceed = (currentTabUrl, timeSpent) => {
+
+    return timeSpent > notifySitesData[currentTabUrl];
+}
+
+/*
+create and show notification
+*/
+function showNotification(activeUrl, timeSpent) {
+    chrome.notifications.clear('site-notification', function(wasCleared) {
+        console.log(wasCleared);
+        if (!wasCleared) {
+            console.log('!wasCleared');
+
+            chrome.notifications.create(
+                'site-notification', {
+                    type: 'basic',
+                    iconUrl: 'images/icon-64.png',
+                    title: "Activity Tracker",
+                    contextMessage: activeUrl + ' ' + formatTime(timeSpent),
+                    message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
+                },
+                function(notificationId) {
+                    console.log(notificationId);
+                    chrome.notifications.clear('site-notification', function(wasCleared) {
+                        if (wasCleared)
+                            notificationAction(activeUrl, timeSpent);
+                    });
+                });
+        } else {
+            notificationAction(activeUrl, timeSpent);
+        }
+    });
+}
+
+function notificationAction(activeUrl, timeSpent) {
+
+    chrome.notifications.create(
+        'site-notification', {
+            type: 'basic',
+            iconUrl: 'images/icon-64.png',
+            title: "Activity Tracker",
+            contextMessage: activeUrl + ' ' + formatTime(timeSpent),
+            message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
+        });
+}
+
 
 /*
 call function in background in 1 sec interval

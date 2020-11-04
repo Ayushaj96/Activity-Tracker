@@ -9,6 +9,7 @@
         "activeTab",
         "storage",
         "idle",
+        "notifications",
         "chrome://favicon/*",
         "webNavigation",
         "unlimitedStorage"

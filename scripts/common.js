@@ -2,6 +2,8 @@ const ALL_TIME_DATA_KEY = "allTimeData";
 const NOTIFYING_SITES_KEY = "notifySites";
 const CURRENT_DAY_DATA_KEY = "currentDayData";
 
+const STORAGE_NOTIFICATION_MESSAGE_DEFAULT = 'You have spent a lot of time on this site';
+
 /*
 sort object based on multiple key properties
 */
@@ -53,8 +55,7 @@ const formatTime = (time) => {
 
     let seconds = parseInt(time % 60, 10);
 
-    let formatedTime = (days === 0 || days < 10 ? "0" + days : days) + "d " +
-        (hours === 0 || hours < 10 ? "0" + hours : hours) + "h " +
+    let formatedTime = (hours === 0 || hours < 10 ? "0" + hours : hours) + "h " +
         (minutes < 10 ? "0" + minutes : minutes) + "m " +
         (seconds < 10 ? "0" + seconds : seconds) + "s";
     return formatedTime;

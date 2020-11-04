@@ -20,25 +20,37 @@ function init() {
     showTodayData();
 }
 
+/*
+Display current day data
+*/
 const showTodayData = () => {
     ui.setUIForToday();
     storage.getValue(CURRENT_DAY_DATA_KEY, displayData);
 }
 
+
+/*
+Display all time data
+*/
 const showAllData = () => {
     ui.setUIForAll();
     storage.getValue(CURRENT_DAY_DATA_KEY, displayData);
 }
 
+/*
+Display settings
+*/
 const showSettings = () => {
-        ui.setUIForSettings();
-        storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function(integer) {
-            document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
-        });
-    }
-    /*
-    Display data on popup
-    */
+    ui.setUIForSettings();
+    storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function(integer) {
+        document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
+    });
+}
+
+
+/*
+Display all data
+*/
 const displayData = (data) => {
 
     if (data == undefined || data == null) {

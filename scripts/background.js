@@ -9,20 +9,42 @@ const trackCurrentActiveTab = (currentTab) => {
         return;
     }
 
-    // get value from localstorage
-    storage.getValue(CURRENT_DAY_DATA_KEY, (currentActiveTab) => {
-        saveData(CURRENT_DAY_DATA_KEY, currentActiveTab, currentTab);
+    storage.getValue(CURRENT_DAY_DATA_KEY, (data) => {
+        let dataObj = checkCurrentDayData(data);
+        saveData(CURRENT_DAY_DATA_KEY, dataObj, currentTab);
     });
 }
 
-const saveData = (storageKey, currentActiveTab, currentTab) => {
+const checkCurrentDayData = (data) => {
+
+    let dataObj = data != null ? JSON.parse(data) : {};
+
+    let today = new Date();
+    let currentDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+    let passedDate = '';
+
+    if (!(dataObj.hasOwnProperty('passedDate'))) {
+        passedDate = currentDate;
+    } else {
+        passedDate = dataObj['passedDate'];
+    }
+
+    dataObj['passedDate'] = currentDate;
+    if (!(dataObj.hasOwnProperty('data')) || (passedDate != currentDate)) {
+        dataObj['data'] = {};
+    }
+
+    return dataObj;
+}
+
+const saveData = (storageKey, dataObj, currentTab) => {
 
     let hostName = getHostName(currentTab.url);
     if (hostName.length === 0) {
         return;
     }
 
-    let currentActiveTabObj = currentActiveTab != null ? JSON.parse(currentActiveTab) : {};
+    let currentActiveTabObj = dataObj['data'];
 
     let currentDate = Date.now();
     let passedSeconds = 1;
@@ -49,7 +71,8 @@ const saveData = (storageKey, currentActiveTab, currentTab) => {
     setBadgeText(currentTab.id, trackedTime);
 
     // save value in localstorage
-    storage.saveValue(storageKey, currentActiveTabObj);
+    dataObj['data'] = currentActiveTabObj;
+    storage.saveValue(storageKey, dataObj);
 }
 
 /*

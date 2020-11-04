@@ -48,6 +48,7 @@ const displayData = (data) => {
     try {
 
         let dataObj = JSON.parse(data);
+        dataObj = dataObj['data'];
 
         let entries = [];
         for (let key in dataObj) {

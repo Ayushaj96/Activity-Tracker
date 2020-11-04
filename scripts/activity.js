@@ -32,8 +32,10 @@ const showAllData = () => {
 
 const showSettings = () => {
     ui.setUIForSettings();
+    storage.getMemoryUse(ALL_TIME_DATA_KEY, function (integer) {
+        document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
+    });
 }
-
 /*
 Display data on popup
 */

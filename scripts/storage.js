@@ -10,11 +10,14 @@ class LocalStorage {
     }
 
     getValue(name, callback) {
-        chrome.storage.local.get(name, function(item) {
+        chrome.storage.local.get(name, function (item) {
             if (item !== undefined) {
                 callback(item[name]);
             }
         });
     }
+    getMemoryUse(name, callback) {
+        chrome.storage.local.getBytesInUse(name, callback);
+    };
 
 }

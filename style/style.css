@@ -73,21 +73,25 @@ tr:hover {
 }
 
 #btnClear {
-    font-family: "Montserrat", Arial, Helvetica, sans-serif;
-    background: #d40000;
-    color: #efefef;
-    border: 2px solid #c10000;
-    padding: 5px;
+    background: #3477db;
+    color: #fff;
     border-radius: 3px;
-    box-shadow: 0px 1px 6px -1px #525252;
-    font-size: 11px;
-    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    display: block;
+    border: 0;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    float: right;
+    min-width: 80px;
+    text-align: center;
+    width: 200px;
+    margin-top: 10px;
 }
 
 #btnClear:hover {
-    background: #790000;
+    background: #566f9d;
     color: #fff;
 }
 
@@ -130,4 +134,41 @@ a:hover {
 a.active {
     color: rgb(76, 160, 175);
     border-bottom: 2px solid rgb(76, 160, 175);
+}
+
+.list{
+    width: 440px;
+    height: 250px;
+}
+.listbox{
+    overflow-y: auto;
+    width: 350px;
+    height: 120px;
+    padding: 3px;
+    padding: 3px 5px 3px 5px;
+    border: 1px solid rgb(172, 169, 169);
+}
+
+.label-with-list{
+    width: 300px;
+    height: 15px;
+    padding: 3px;
+}
+
+.btn-with-list{
+    height: 24px !important;
+    line-height: 20px !important;
+    padding: 0 5px !important;
+    min-width: 20px !important;
+    width: 28px !important;
+  }
+
+  .margin-top-10{
+    margin-top: 10px;
+} 
+
+.clock{
+    width: 65px;
+    height: 15px;
+    padding: 3px;
 }

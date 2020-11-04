@@ -22,8 +22,7 @@
             "scripts/ui.js",
             "scripts/background.js",
             "scripts/common.js"
-        ],
-        "persistent": false
+        ]
     },
     "options_page": "options.html",
     "browser_action": {

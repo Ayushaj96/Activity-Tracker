@@ -17,16 +17,34 @@
 		<a id="btnAll">All-time</a>
 		<a id="btnSettings">Settings</a>
 	</div>
-	
+
 	<canvas id="chart"></canvas>
 
 	<div>
 		<table id="timeTable"></table>
 	</div>
 
-	<div id = "settings">
-		<button id="btnClear"> Clear Data </button>
-	<div>
+	<div id="settings">
+
+
+		<div class="margin-top-10">
+			<label>List of sites with notifications: </label>
+		</div>
+		<div class="margin-top-10">
+			<input type="text" class="label-with-list" placeholder="Enter site name..." id='addNotifySiteLbl' />
+			<input type="text" class="clock" placeholder="Time..." />
+			<input type="button" class="btn-with-list" value="+" id='addNotifySiteBtn' />
+		</div>
+		<div class="margin-top-10">
+			<ul id='notifyList' class="listbox list" size="10"></ul>
+		</div>
+		<div class="margin-top-10">
+			<label>Data in memory use </label>
+			<label id='memoryUse'></label>
+			<button id="btnClear"> Clear All Data </button>
+		</div>
+
+	</div>
 
 	<div id="errorMessage"></div>
 

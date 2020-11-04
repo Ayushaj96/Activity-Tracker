@@ -9,44 +9,47 @@ const trackCurrentActiveTab = (currentTab) => {
         return;
     }
 
+    // get value from localstorage
+    storage.getValue(CURRENT_DAY_DATA_KEY, (currentActiveTab) => {
+        saveData(CURRENT_DAY_DATA_KEY, currentActiveTab, currentTab);
+    });
+}
+
+const saveData = (storageKey, currentActiveTab, currentTab) => {
+
     let hostName = getHostName(currentTab.url);
     if (hostName.length === 0) {
         return;
     }
 
-    // get value from localstorage
-    storage.getValue(ALL_TIME_DATA_KEY, (currentActiveTab) => {
+    let currentActiveTabObj = currentActiveTab != null ? JSON.parse(currentActiveTab) : {};
 
-        let currentActiveTabObj = currentActiveTab != null ? JSON.parse(currentActiveTab) : {};
+    let currentDate = Date.now();
+    let passedSeconds = 1;
 
-        let currentDate = Date.now();
-        let passedSeconds = 1;
+    // if url already exists then update time and last visit
+    if (currentActiveTabObj.hasOwnProperty(hostName)) {
+        currentActiveTabObj[hostName].trackedSeconds += passedSeconds;
+        currentActiveTabObj[hostName].lastVisit = currentDate;
+        currentActiveTabObj[hostName].icon = currentTab.favIconUrl;
+    }
+    // if url not exist, then add 
+    else {
+        let newUrlInfo = {
+            'url': hostName,
+            'trackedSeconds': passedSeconds,
+            'lastVisit': currentDate,
+            'icon': currentTab.favIconUrl
+        };
+        currentActiveTabObj[hostName] = newUrlInfo;
+    }
 
-        // if url already exists then update time and last visit
-        if (currentActiveTabObj.hasOwnProperty(hostName)) {
-            currentActiveTabObj[hostName].trackedSeconds += passedSeconds;
-            currentActiveTabObj[hostName].lastVisit = currentDate;
-            currentActiveTabObj[hostName].icon = currentTab.favIconUrl;
-        }
-        // if url not exist, then add 
-        else {
-            let newUrlInfo = {
-                'url': hostName,
-                'trackedSeconds': passedSeconds,
-                'lastVisit': currentDate,
-                'icon': currentTab.favIconUrl
-            };
-            currentActiveTabObj[hostName] = newUrlInfo;
-        }
+    // display time on extension icon
+    let trackedTime = currentActiveTabObj[hostName].trackedSeconds;
+    setBadgeText(currentTab.id, trackedTime);
 
-        // display time on extension icon
-        let trackedTime = currentActiveTabObj[hostName].trackedSeconds;
-        setBadgeText(currentTab.id, trackedTime);
-
-        // save value in localstorage
-        storage.saveValue(ALL_TIME_DATA_KEY, currentActiveTabObj)
-    });
-
+    // save value in localstorage
+    storage.saveValue(storageKey, currentActiveTabObj);
 }
 
 /*

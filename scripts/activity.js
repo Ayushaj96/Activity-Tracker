@@ -22,23 +22,23 @@ function init() {
 
 const showTodayData = () => {
     ui.setUIForToday();
-    storage.getValue(ALL_TIME_DATA_KEY, displayData);
+    storage.getValue(CURRENT_DAY_DATA_KEY, displayData);
 }
 
 const showAllData = () => {
     ui.setUIForAll();
-    storage.getValue(ALL_TIME_DATA_KEY, displayData);
+    storage.getValue(CURRENT_DAY_DATA_KEY, displayData);
 }
 
 const showSettings = () => {
-    ui.setUIForSettings();
-    storage.getMemoryUse(ALL_TIME_DATA_KEY, function (integer) {
-        document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
-    });
-}
-/*
-Display data on popup
-*/
+        ui.setUIForSettings();
+        storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function(integer) {
+            document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
+        });
+    }
+    /*
+    Display data on popup
+    */
 const displayData = (data) => {
 
     if (data == undefined || data == null) {
@@ -138,7 +138,7 @@ const clearData = () => {
 
     let response = confirm('Are you sure you want to clear tracking history?');
     if (response) {
-        storage.saveValue(ALL_TIME_DATA_KEY, {})
+        storage.saveValue(CURRENT_DAY_DATA_KEY, {})
         ui.clearActivityUI();
     }
 }

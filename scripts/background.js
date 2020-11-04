@@ -84,8 +84,8 @@ const saveData = (storageKey, dataObj, currentTab) => {
     setBadgeText(currentTab.id, trackedTime);
 
     if (isNotifyRequired(hostName) && isTimeLimitExceed(hostName, trackedTime)) {
-        //showNotification(hostName, trackedTime);
-        console.log(hostName, trackedTime);
+        showNotification(hostName, trackedTime);
+        //console.log(hostName, trackedTime);
     }
 
     // save value in localstorage
@@ -106,29 +106,32 @@ check time limit exceed on current tab
 */
 const isTimeLimitExceed = (currentTabUrl, timeSpent) => {
 
-    return timeSpent > notifySitesData[currentTabUrl];
+    if ((timeSpent == notifySitesData[currentTabUrl]) || (timeSpent == notifySitesData[currentTabUrl] + 120)) {
+        return true;
+    }
+    return false;
 }
 
 /*
 create and show notification
 */
 function showNotification(activeUrl, timeSpent) {
-    chrome.notifications.clear('site-notification', function (wasCleared) {
+    chrome.notifications.clear('site-notification', function(wasCleared) {
         console.log(wasCleared);
         if (!wasCleared) {
             console.log('!wasCleared');
 
             chrome.notifications.create(
                 'site-notification', {
-                type: 'basic',
-                iconUrl: 'images/icon-64.png',
-                title: "Activity Tracker",
-                contextMessage: activeUrl + ' ' + formatTime(timeSpent),
-                message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
-            },
-                function (notificationId) {
+                    type: 'basic',
+                    iconUrl: 'images/icon-64.png',
+                    title: "Activity Tracker",
+                    contextMessage: activeUrl + ' ' + formatTime(timeSpent),
+                    message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
+                },
+                function(notificationId) {
                     console.log(notificationId);
-                    chrome.notifications.clear('site-notification', function (wasCleared) {
+                    chrome.notifications.clear('site-notification', function(wasCleared) {
                         if (wasCleared)
                             notificationAction(activeUrl, timeSpent);
                     });
@@ -143,12 +146,12 @@ function notificationAction(activeUrl, timeSpent) {
 
     chrome.notifications.create(
         'site-notification', {
-        type: 'basic',
-        iconUrl: 'images/icon-64.png',
-        title: "Activity Tracker",
-        contextMessage: activeUrl + ' ' + formatTime(timeSpent),
-        message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
-    });
+            type: 'basic',
+            iconUrl: 'images/icon-64.png',
+            title: "Activity Tracker",
+            contextMessage: activeUrl + ' ' + formatTime(timeSpent),
+            message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
+        });
 }
 
 
@@ -156,7 +159,7 @@ function notificationAction(activeUrl, timeSpent) {
 call function in background in 1 sec interval
 */
 const backgroundCheck = () => {
-    chrome.windows.getLastFocused({ populate: true }, function (currentWindow) {
+    chrome.windows.getLastFocused({ populate: true }, function(currentWindow) {
         if (currentWindow.focused) {
             let activeTab = currentWindow.tabs.find(t => t.active === true);
             trackCurrentActiveTab(activeTab);

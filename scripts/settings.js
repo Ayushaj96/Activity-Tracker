@@ -73,39 +73,41 @@ function isContainsNotificationSite(domain) {
     return domain in notifyList;
 }
 
-function addDomainToEditableListBox(site, time) {
+function deleteNotificationSite(e) {
+    let targetElement = e.path[1];
+    let itemValue = targetElement.querySelector("[id='domain']").value;
+    delete notifyList[itemValue];
+    document.getElementById('notifyList').removeChild(targetElement);
+    storage.saveValue(NOTIFYING_SITES_KEY, notifyList);
+}
+
+function addDomainToEditableListBox(domain, time) {
     let li = document.createElement('li');
 
-    let domainLbl = document.createElement('label');
+    let domainLbl = document.createElement('input');
+    domainLbl.type = 'text';
     domainLbl.classList.add('inline-block', 'element-item');
-    domainLbl.innerHTML = site + '   ' + formatTime(time);
+    domainLbl.value = domain;
+    domainLbl.readOnly = true;
+    domainLbl.setAttribute('id', 'domain');
 
-    // var del = document.createElement('img');
-    // del.height = 12;
-    // del.src = '/icons/delete.png';
-    // del.classList.add('margin-left-5');
-    // del.addEventListener('click', function (e) {
-    //     actionDelete(e, actionUpdateTimeFromList, actionUpdateList);
-    // });
+    let timeLbl = document.createElement('label');
+    timeLbl.classList.add('inline-block', 'element-item');
+    timeLbl.innerHTML = formatTime(time);
 
-    // var bloc = document.createElement('div');
-    // bloc.classList.add('clockpicker');
-    // bloc.setAttribute('data-placement', 'left');
-    // bloc.setAttribute('data-align', 'top');
-    // bloc.setAttribute('data-autoclose', 'true');
-    // var timeInput = document.createElement('input');
-    // timeInput.type = 'text';
-    // timeInput.classList.add('clock', 'clock-li-readonly');
-    // timeInput.setAttribute('readonly', true);
-    // timeInput.setAttribute('name', 'time');
-    // timeInput.value = convertShortSummaryTimeToString(entity.time);
-    // bloc.appendChild(timeInput);
+    let del = document.createElement('img');
+    del.height = 12;
+    del.src = '/images/delete.png';
+    del.classList.add('margin-left-5');
+    del.addEventListener('click', function (e) {
+        deleteNotificationSite(e);
+    });
 
-    var hr = document.createElement('hr');
+
+    let hr = document.createElement('hr');
     let _li = document.getElementById('notifyList').appendChild(li);
     _li.appendChild(domainLbl);
-    // li.appendChild(del);
-    // li.appendChild(edit);
-    // li.appendChild(bloc);
+    _li.appendChild(timeLbl);
+    _li.appendChild(del);
     _li.appendChild(hr);
 }

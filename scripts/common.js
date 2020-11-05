@@ -9,7 +9,7 @@ sort object based on multiple key properties
 */
 const sortMultipleProperties = (...property) => {
 
-    return function(obj1, obj2) {
+    return function (obj1, obj2) {
         let i = 0,
             result = 0,
             numberOfProperties = property.length;
@@ -33,7 +33,7 @@ const sortData = (property) => {
         property = property.substr(1);
     }
 
-    return function(a, b) {
+    return function (a, b) {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
     }
@@ -81,6 +81,20 @@ const convertTimeToBadgeString = (time) => {
         return days + "d"
     }
 }
+
+
+function convertTimeToSeconds(time) {
+    var timeValue = time.split(':');
+    var hour = timeValue[0];
+    var min = timeValue[1];
+    var resultTimeValue = 0;
+    if (hour > 0)
+        resultTimeValue = hour * 3600;
+    resultTimeValue += min * 60;
+
+    return resultTimeValue;
+}
+
 
 /*
 get hostname from url

@@ -106,7 +106,7 @@ tr:hover {
 .btn-block {
     width: 100%;
     margin-bottom: 5px;
-    margin-left: 62px;
+    margin-left: 140px;
 }
 
 a {
@@ -114,7 +114,7 @@ a {
     padding: 4px 5px;
     text-align: center;
     display: inline-block;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     margin: 4px 7px;
     transition-duration: 0.4s;

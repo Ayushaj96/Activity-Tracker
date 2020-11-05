@@ -13,7 +13,7 @@ function init() {
     timeTable = document.getElementById("timeTable");
 
     document.getElementById("btnToday").addEventListener('click', showTodayData);
-    document.getElementById("btnAll").addEventListener('click', showAllData);
+    // document.getElementById("btnAll").addEventListener('click', showAllData);
     document.getElementById("btnSettings").addEventListener('click', showSettings);
 
     showTodayData();

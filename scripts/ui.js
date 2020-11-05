@@ -2,7 +2,7 @@ class UI {
 
     setUIForToday() {
         document.getElementById('btnToday').classList.add('active');
-        document.getElementById('btnAll').classList.remove('active');
+        // document.getElementById('btnAll').classList.remove('active');
         document.getElementById('btnSettings').classList.remove('active');
         document.getElementById('chart').style.display = 'block';
         this.clearSettingsUI();
@@ -10,7 +10,7 @@ class UI {
 
     setUIForAll() {
         document.getElementById('btnToday').classList.remove('active');
-        document.getElementById('btnAll').classList.add('active');
+        // document.getElementById('btnAll').classList.add('active');
         document.getElementById('btnSettings').classList.remove('active');
         document.getElementById('chart').style.display = 'block';
         this.clearSettingsUI();
@@ -18,7 +18,7 @@ class UI {
 
     setUIForSettings() {
         document.getElementById('btnToday').classList.remove('active');
-        document.getElementById('btnAll').classList.remove('active');
+        // document.getElementById('btnAll').classList.remove('active');
         document.getElementById('btnSettings').classList.add('active');
         document.getElementById('settings').style.display = 'block';
         this.clearActivityUI();

@@ -224,3 +224,22 @@ a.active {
     background: rgb(225 243 247);
     box-shadow: 10px 9px 7px 2px rgba(217, 210, 217, 1);
 }
+
+.title {
+    font-size: 14px;
+    font-weight: 550;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 6px;
+}
+
+#extensionTitle {
+    margin-top: -20px;
+}
+
+#no-data {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 60px;
+}

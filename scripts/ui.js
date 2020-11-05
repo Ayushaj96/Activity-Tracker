@@ -22,7 +22,16 @@ class UI {
         // document.getElementById('btnAll').classList.remove('active');
         document.getElementById('btnSettings').classList.add('active');
         document.getElementById('settings').style.display = 'block';
+        this.hideNodataMessage();
         this.clearActivityUI();
+    }
+
+    hideNodataMessage() {
+        document.getElementById('no-data').style.display = 'none';
+    }
+
+    displayNodataMessage() {
+        document.getElementById('no-data').style.display = 'block';
     }
 
     clearRows() {
@@ -31,7 +40,6 @@ class UI {
 
     clearActivityUI() {
         document.getElementById('today').style.display = 'none';
-
     }
 
     clearSettingsUI() {

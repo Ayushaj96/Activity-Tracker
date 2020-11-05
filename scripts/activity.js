@@ -45,7 +45,11 @@ const displayData = (data) => {
     }
     if (data === '{}') {
         ui.clearActivityUI();
+        ui.displayNodataMessage();
+    } else {
+        ui.hideNodataMessage();
     }
+
     try {
 
         let dataObj = JSON.parse(data);

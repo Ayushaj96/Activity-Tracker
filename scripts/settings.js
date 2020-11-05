@@ -82,23 +82,22 @@ function deleteNotificationSite(e) {
 }
 
 function addDomainToEditableListBox(domain, time) {
+
     let li = document.createElement('li');
 
-    let domainLbl = document.createElement('input');
-    domainLbl.type = 'text';
-    domainLbl.classList.add('inline-block', 'element-item');
-    domainLbl.value = domain;
-    domainLbl.readOnly = true;
+    let domainLbl = document.createElement('label');
+    domainLbl.classList.add('block', 'element-item', 'margin-left-5');
+    domainLbl.innerHTML = domain;
     domainLbl.setAttribute('id', 'domain');
 
     let timeLbl = document.createElement('label');
-    timeLbl.classList.add('inline-block', 'element-item');
+    timeLbl.classList.add('margin-left-5');
     timeLbl.innerHTML = formatTime(time);
 
     let del = document.createElement('img');
     del.height = 12;
     del.src = '/images/delete.png';
-    del.classList.add('margin-left-5');
+    del.classList.add('margin-left-5', 'delete-btn');
     del.addEventListener('click', function(e) {
         deleteNotificationSite(e);
     });

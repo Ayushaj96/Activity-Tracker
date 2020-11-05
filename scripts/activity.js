@@ -40,11 +40,12 @@ const showAllData = () => {
 Display all data
 */
 const displayData = (data) => {
-
-    if (data == undefined || data == null) {
+    if (data === undefined || data === null) {
         return;
     }
-
+    if (data === '{}') {
+        ui.clearActivityUI();
+    }
     try {
 
         let dataObj = JSON.parse(data);

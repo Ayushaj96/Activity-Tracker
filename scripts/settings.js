@@ -26,7 +26,7 @@ const clearData = () => {
     let response = confirm('Are you sure you want to clear tracking history?');
     if (response) {
         storage.saveValue(CURRENT_DAY_DATA_KEY, {})
-        ui.clearActivityUI();
+        // ui.clearActivityUI();
         storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function (integer) {
             document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
         });

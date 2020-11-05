@@ -4,7 +4,8 @@ class UI {
         document.getElementById('btnToday').classList.add('active');
         // document.getElementById('btnAll').classList.remove('active');
         document.getElementById('btnSettings').classList.remove('active');
-        document.getElementById('chart').style.display = 'block';
+        // document.getElementById('chart').style.display = 'block';
+        document.getElementById('today').style.display = 'block';
         this.clearSettingsUI();
     }
 
@@ -29,8 +30,8 @@ class UI {
     }
 
     clearActivityUI() {
-        this.clearRows();
-        document.getElementById('chart').style.display = 'none';
+        document.getElementById('today').style.display = 'none';
+
     }
 
     clearSettingsUI() {

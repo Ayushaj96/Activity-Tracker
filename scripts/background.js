@@ -1,11 +1,5 @@
 let storage = new LocalStorage();
 
-let notifySitesData = {
-    "developer.chrome.com": 10,
-    "www.google.com": 9,
-    "stackoverflow.com": 6
-}
-
 /*
 process current active tab
 */
@@ -83,30 +77,34 @@ const saveData = (storageKey, dataObj, currentTab) => {
     let trackedTime = currentActiveTabObj[hostName].trackedSeconds;
     setBadgeText(currentTab.id, trackedTime);
 
-    if (isNotifyRequired(hostName) && isTimeLimitExceed(hostName, trackedTime)) {
-        showNotification(hostName, trackedTime);
-        //console.log(hostName, trackedTime);
-    }
+    // check whether current site need to notify
+    storage.getValue(NOTIFYING_SITES_KEY, (notifyList) => {
 
-    // save value in localstorage
-    dataObj['data'] = currentActiveTabObj;
-    storage.saveValue(storageKey, dataObj);
+        notifyList = JSON.parse(notifyList);
+        if (isNotifyRequired(hostName, notifyList) && isTimeLimitExceed(hostName, trackedTime, notifyList)) {
+            showNotification(hostName, trackedTime);
+        }
+
+        // save value in localstorage
+        dataObj['data'] = currentActiveTabObj;
+        storage.saveValue(storageKey, dataObj);
+    });
 }
 
 /*
 check current tab need notification
 */
-const isNotifyRequired = (currentTabUrl) => {
+const isNotifyRequired = (currentTabUrl, notifyList) => {
 
-    return (currentTabUrl in notifySitesData);
+    return (currentTabUrl in notifyList);
 }
 
 /*
 check time limit exceed on current tab
 */
-const isTimeLimitExceed = (currentTabUrl, timeSpent) => {
+const isTimeLimitExceed = (currentTabUrl, timeSpent, notifyList) => {
 
-    if ((timeSpent == notifySitesData[currentTabUrl]) || (timeSpent == notifySitesData[currentTabUrl] + 120)) {
+    if ((timeSpent == notifyList[currentTabUrl]) || (timeSpent == notifyList[currentTabUrl] + 120)) {
         return true;
     }
     return false;
@@ -116,23 +114,23 @@ const isTimeLimitExceed = (currentTabUrl, timeSpent) => {
 create and show notification
 */
 function showNotification(activeUrl, timeSpent) {
-    chrome.notifications.clear('site-notification', function (wasCleared) {
+    chrome.notifications.clear('site-notification', function(wasCleared) {
         console.log(wasCleared);
         if (!wasCleared) {
             console.log('!wasCleared');
 
             chrome.notifications.create(
                 'site-notification', {
-                type: 'basic',
-                iconUrl: 'images/icon-64.png',
-                title: "Activity Tracker",
-                contextMessage: activeUrl + ' ' + formatTime(timeSpent),
-                message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT,
-                eventTime: Date.now() + 8
-            },
-                function (notificationId) {
+                    type: 'basic',
+                    iconUrl: 'images/icon-64.png',
+                    title: "Activity Tracker",
+                    contextMessage: activeUrl + ' ' + formatTime(timeSpent),
+                    message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT,
+                    eventTime: Date.now() + 8
+                },
+                function(notificationId) {
                     console.log(notificationId);
-                    chrome.notifications.clear('site-notification', function (wasCleared) {
+                    chrome.notifications.clear('site-notification', function(wasCleared) {
                         if (wasCleared)
                             notificationAction(activeUrl, timeSpent);
                     });
@@ -147,12 +145,12 @@ function notificationAction(activeUrl, timeSpent) {
 
     chrome.notifications.create(
         'site-notification', {
-        type: 'basic',
-        iconUrl: 'images/icon-64.png',
-        title: "Activity Tracker",
-        contextMessage: activeUrl + ' ' + formatTime(timeSpent),
-        message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
-    });
+            type: 'basic',
+            iconUrl: 'images/icon-64.png',
+            title: "Activity Tracker",
+            contextMessage: activeUrl + ' ' + formatTime(timeSpent),
+            message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
+        });
 }
 
 
@@ -160,7 +158,7 @@ function notificationAction(activeUrl, timeSpent) {
 call function in background in 1 sec interval
 */
 const backgroundCheck = () => {
-    chrome.windows.getLastFocused({ populate: true }, function (currentWindow) {
+    chrome.windows.getLastFocused({ populate: true }, function(currentWindow) {
         if (currentWindow.focused) {
             let activeTab = currentWindow.tabs.find(t => t.active === true);
             trackCurrentActiveTab(activeTab);

@@ -82,17 +82,17 @@ const showPieChart = (data) => {
             datasets: [{
                 data: values,
                 backgroundColor: bgColors,
-            },],
+            }, ],
         },
         options: {
-            cutoutPercentage: 15,
+            cutoutPercentage: 5,
             legend: {
                 display: false,
             },
             tooltips: {
                 bodyFontSize: 14,
                 callbacks: {
-                    label: function (tooltipItem, data) {
+                    label: function(tooltipItem, data) {
                         return `${data["labels"][tooltipItem["index"]]}: ${data["datasets"][0]["data"][tooltipItem["index"]]}%`
                     }
                 }

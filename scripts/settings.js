@@ -11,9 +11,8 @@ function settingsInit() {
     document.getElementById('addNotifySiteBtn').addEventListener('click', addNotifySites);
     $('.clockpicker').clockpicker();
 
-    storage.getValue(NOTIFYING_SITES_KEY, function (items) {
-        console.log(items)
-        if (items !== '{}') {
+    storage.getValue(NOTIFYING_SITES_KEY, function(items) {
+        if (items !== undefined && items !== null && items !== '{}') {
             notifyList = JSON.parse(items);
             viewNotificationList(notifyList);
         }
@@ -28,7 +27,7 @@ const clearData = () => {
     if (response) {
         storage.saveValue(CURRENT_DAY_DATA_KEY, {})
         ui.clearActivityUI();
-        storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function (integer) {
+        storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function(integer) {
             document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
         });
     }
@@ -36,7 +35,7 @@ const clearData = () => {
 
 const showSettings = () => {
     ui.setUIForSettings();
-    storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function (integer) {
+    storage.getMemoryUse(CURRENT_DAY_DATA_KEY, function(integer) {
         document.getElementById('memoryUse').innerHTML = (integer / 1024).toFixed(2) + 'Kb';
     });
 }
@@ -45,6 +44,7 @@ const addNotifySites = () => {
     let newSite = document.getElementById('addNotifySiteLbl').value;
     let newTime = document.getElementById('addNotifyTimeLbl').value;
     if (newSite !== '' && newTime !== '') {
+        newSite = getHostName(newSite);
         actionAddNotifyToList(newSite, newTime);
     } else { alert('Field Cannot be left Empty'); }
 }
@@ -99,7 +99,7 @@ function addDomainToEditableListBox(domain, time) {
     del.height = 12;
     del.src = '/images/delete.png';
     del.classList.add('margin-left-5');
-    del.addEventListener('click', function (e) {
+    del.addEventListener('click', function(e) {
         deleteNotificationSite(e);
     });
 

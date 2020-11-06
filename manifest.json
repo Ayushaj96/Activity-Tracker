@@ -15,7 +15,7 @@
         "unlimitedStorage"
     ],
     "icons": {
-        "64": "images/icon-64.png"
+        "64": "images/icon-100.png"
     },
     "background": {
         "scripts": [
@@ -28,7 +28,7 @@
     "browser_action": {
         "default_popup": "index.html",
         "default_icon": {
-            "64": "images/icon-64.png"
+            "64": "images/icon-100.png"
         }
     },
     "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net/npm/chart.js@2.8.0; object-src 'self'"

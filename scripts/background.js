@@ -127,7 +127,7 @@ function showNotification(activeUrl, timeSpent) {
             chrome.notifications.create(
                 'site-notification', {
                 type: 'basic',
-                iconUrl: 'images/icon-64.png',
+                iconUrl: 'images/icon-100.png',
                 title: "Activity Tracker",
                 contextMessage: activeUrl + ' ' + formatTime(timeSpent),
                 message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT,
@@ -151,10 +151,11 @@ function notificationAction(activeUrl, timeSpent) {
     chrome.notifications.create(
         'site-notification', {
         type: 'basic',
-        iconUrl: 'images/icon-64.png',
+        iconUrl: 'images/icon-100.png',
         title: "Activity Tracker",
         contextMessage: activeUrl + ' ' + formatTime(timeSpent),
-        message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT
+        message: STORAGE_NOTIFICATION_MESSAGE_DEFAULT,
+        eventTime: Date.now() + 8
     });
 }
 

@@ -1,8 +1,8 @@
 # Activity Time Tracker <img width="40" height="40" src="https://raw.githubusercontent.com/Ayushaj96/Activity-tracker/main/images/icon-100.png" alt="extension-icon" style="margin-left: 10px;margin-bottom: -8px;">
 
-Activity Time Tracker keeps track of how much time you spend on the web and presents the stats in a useful and intuitive way. 
+Activity Time Tracker keeps track of how much time you spend on the websites and presents the stats in a useful and intuitive way. 
 
-Extension uses only local [chrome.storage API](https://developer.chrome.com/apps/storage) to store data.
+### Screenshots
 
 <p align="center">
     <img width="460" height="460" src="https://raw.githubusercontent.com/Ayushaj96/Activity-tracker/main/images/dashboard.PNG" />

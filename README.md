@@ -1,4 +1,4 @@
-# Activity Time Tracker 
+# Activity Time Tracker <img width="40" height="40" src="https://raw.githubusercontent.com/Ayushaj96/Activity-tracker/main/images/icon-100.png" alt="extension-icon" style="margin-left: 10px;margin-bottom: -8px;">
 
 Activity Time Tracker keeps track of how much time you spend on the web and presents the stats in a useful and intuitive way. 
 

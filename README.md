@@ -1,11 +1,20 @@
 # Activity Time Tracker 
 
 Activity Time Tracker keeps track of how much time you spend on the web and presents the stats in a useful and intuitive way. 
-You can set a daily visit limit for sites and get notified after the expiration of the limit. 
 
-Extension uses only local [chrome.storage API](https://developer.chrome.com/apps/storage) chrome.storage API to store data.
+Extension uses only local [chrome.storage API](https://developer.chrome.com/apps/storage) to store data.
 
-![image](https://raw.githubusercontent.com/Ayushaj96/Activity-tracker/main/images/img.PNG)
+<p align="center">
+    <img width="460" height="460" src="https://raw.githubusercontent.com/Ayushaj96/Activity-tracker/main/images/dashboard.PNG" />
+</p>
+<br/>
+
+<h4> You can set a daily visit limit for sites and get notified after time limit exceed and can clear data. </h4>
+
+<p align="center">
+    <img width="460" height="360" src="https://raw.githubusercontent.com/Ayushaj96/Activity-tracker/main/images/settings.PNG" />
+</p>
+<br/>
 
 # Install as an extension from source
 
